@@ -1,0 +1,67 @@
+<html>
+<head>
+    <title>Joe's Hotdog Stand</title>
+</head>
+<body>
+    <h1>Joe's Hotdog Stand Online Ordering</h1>
+    
+    <script>
+        alert("Joe's Hotdog Stand Menu:\nHotdogs: $5.25\nFrench Fries: $3.75\nDrinks: $2.50\n\nSpecials:\nJoe's Meal Deal: $10 (1 hotdog, 1 fries, 1 drink)\n10% discount on orders $30 or more (before tax)");
+        
+        const HOTDOG_PRICE = 5.25;
+        const FRIES_PRICE = 3.75;
+        const DRINK_PRICE = 2.50;
+        const MEAL_DEAL_PRICE = 10.00;
+        
+        var numDogs = parseInt(prompt("How many hotdogs do you want?"));
+        var numFries = parseInt(prompt("How many fries do you want?"));
+        var numSoda = parseInt(prompt("How many sodas do you want?"));
+        
+        function showMoney(amount) {
+            var cents = Math.round(amount * 100);
+            var dollars = Math.floor(cents / 100);
+            var remaining = cents % 100;
+            if (remaining < 10) {
+                return dollars + ".0" + remaining;
+            }
+            return dollars + "." + remaining;
+        }
+        
+        var totalDogCost = numDogs * HOTDOG_PRICE;
+        var totalFriesCost = numFries * FRIES_PRICE;
+        var totalSodaCost = numSoda * DRINK_PRICE;
+        
+        var subtotal = totalDogCost + totalFriesCost + totalSodaCost;
+        
+        document.write("<h2>Order Summary</h2>");
+        document.write("<p>Hotdogs: " + numDogs + " x $" + showMoney(HOTDOG_PRICE) + " = $" + showMoney(totalDogCost) + "</p>");
+        document.write("<p>French Fries: " + numFries + " x $" + showMoney(FRIES_PRICE) + " = $" + showMoney(totalFriesCost) + "</p>");
+        document.write("<p>Drinks: " + numSoda + " x $" + showMoney(DRINK_PRICE) + " = $" + showMoney(totalSodaCost) + "</p>");
+        document.write("<p><strong>Subtotal before discount: $" + showMoney(subtotal) + "</strong></p>");
+        
+        var mealDeals = Math.min(numDogs, numFries, numSoda);
+        var mealDealDiscount = mealDeals * (HOTDOG_PRICE + FRIES_PRICE + DRINK_PRICE - MEAL_DEAL_PRICE);
+        
+        var subtotalAfterMealDeal = subtotal - mealDealDiscount;
+        
+        if (mealDealDiscount > 0) {
+            document.write("<p>Meal Deal discount (" + mealDeals + " meal(s)): -$" + showMoney(mealDealDiscount) + "</p>");
+        }
+        
+        var percentDiscount = 0;
+        if (subtotalAfterMealDeal >= 30) {
+            percentDiscount = subtotalAfterMealDeal * 0.10;
+            document.write("<p>10% discount (order $30+): -$" + showMoney(percentDiscount) + "</p>");
+        }
+        
+        var subtotalAfterDiscount = subtotalAfterMealDeal - percentDiscount;
+        document.write("<p><strong>Subtotal after discount: $" + showMoney(subtotalAfterDiscount) + "</strong></p>");
+        
+        var tax = subtotalAfterDiscount * 0.0625;
+        document.write("<p>Tax (6.25%): $" + showMoney(tax) + "</p>");
+        
+        var finalTotal = subtotalAfterDiscount + tax;
+        document.write("<h2>Final Total: $" + showMoney(finalTotal) + "</h2>");
+    </script>
+</body>
+</html>
